@@ -22,6 +22,7 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(true)
   twoFactorConfirmation TwoFactorConfirmation?
+  invoices Invoice[]
 }
 
 model Course {
@@ -35,6 +36,26 @@ model Course {
   type CourseType
   level Level
   duration String
+}
+
+model Invoice {
+  id    String     @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  orderReference String @unique
+  amount String
+  currency String
+  createdDate Int
+  products InvoiceProduct[]
+}
+
+model InvoiceProduct {
+   id    String     @id @default(cuid())
+   invoiceId String
+   invoice Invoice @relation(fields: [invoiceId], references: [id])
+   productName String
+   productCount String
+   productPrice String
 }
 
 model Account {
