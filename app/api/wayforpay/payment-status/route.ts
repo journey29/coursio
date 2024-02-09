@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 
-export async function POST(request: NextRequest) {
-  const { parsedResponse, invoice, owner } = await request.json();
+export async function POST(request: NextRequest | any) {
+  const { parsedResponse, invoice, owner } = request.body;
 
   try {
     await db.invoice.create({
