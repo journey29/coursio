@@ -76,7 +76,7 @@ const createPaymentForm = async (options: {
   <input type='hidden' name="productCount[]" value="${1}">
   <input type='hidden' name="serviceUrl" value="${
     process.env.MERCHANT_DOMAIN
-  }/payment/success">
+  }/api/wayforpay/payment-status">
   <input type='hidden' name="defaultPaymentSystem" value="card">
   <input type='hidden' name="merchantSignature" value="${merchantSignature}">
   <input type="submit" value="${buttonTitle}">
