@@ -1,6 +1,6 @@
 'use client'
 
-import { useCurrentRole } from "@/hooks/use-curren-role"
+import { useCurrentRole } from "@/hooks/use-current-role"
 import { Role } from "@prisma/client"
 
 type Props = {

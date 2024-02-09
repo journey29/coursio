@@ -11,21 +11,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-}
-
-model Product {
-  id    String     @id @default(uuid())
-  title String  
-  description String
-  price  String
-  length String?
-  course String[]
-  imageUrl String
-}
-
 model User {
   id            String    @id @default(cuid())
   email         String?   @unique
@@ -37,6 +22,19 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(true)
   twoFactorConfirmation TwoFactorConfirmation?
+}
+
+model Course {
+  id    String     @id @default(uuid())
+  title String  
+  description String
+  price  String?
+  imageUrl String?
+  costType CostType
+  languages CourseLanguages[]
+  type CourseType
+  level Level
+  duration String
 }
 
 model Account {
@@ -90,6 +88,38 @@ model TwoFactorConfirmation {
 
   userId String @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum CostType {
+  Free
+  Premium
+}
+
+enum CourseLanguages {
+  English
+  Ukrainian
+  German
+  French
+}
+
+enum Level {
+  Prerequisite
+  Basic
+  Intermidiate
+  Advanced
+}
+
+enum CourseType {
+  Training
+  Mentoring
+  SelfStudy
+  WorkShop
 }
 
 

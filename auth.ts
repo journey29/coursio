@@ -5,6 +5,8 @@ import authConfig from "./auth.config";
 import { getUserById } from "./data/user";
 import { Role } from "@prisma/client";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getCart } from "./data/get-cart";
+import { createCart } from "./data/create-cart";
 
 export const {
   handlers: { GET, POST },

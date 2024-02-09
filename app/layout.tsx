@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import { Toaster } from 'sonner'
 import "./globals.css";
+import ReduxProvider from "@/components/Provider";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['400', '500', '700', "100", "300"] });
 
@@ -21,14 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <Header />
-        <main className="main">
-          <Container>
-            {children}
-          </Container>
-        </main>
-        <Footer />
-        <Toaster position="bottom-center" />
+        <ReduxProvider>
+          <Header />
+          <main className="main">
+            <Container>
+              {children}
+            </Container>
+          </main>
+          <Footer />
+          <Toaster position="bottom-center" />
+        </ReduxProvider>
       </body>
     </html>
   );

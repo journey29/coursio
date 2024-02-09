@@ -13,6 +13,7 @@ import { AuthError } from "next-auth";
 import db from "@/lib/db";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { createCart } from "@/data/create-cart";
 
 export const login = async (values: LoginSchemaType) => {
   const validatedFields = LoginSchema.safeParse(values);
