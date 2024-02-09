@@ -33,7 +33,7 @@ const createPaymentForm = async (options: {
   const orderDate = Math.floor(today.getTime() / 1000);
 
   const wayForPaySecretKey = process.env.WAYFORPAY_SECRET_KEY!;
-  const message = `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productName};1;3000`;
+  const message = `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productName};1;30`;
 
   const hmac = crypto.createHmac("md5", wayForPaySecretKey);
   hmac.update(message);
