@@ -39,26 +39,23 @@ const createPaymentForm = async (options: {
   hmac.update(message);
   const merchantSignature = hmac.digest("hex");
 
-  const invoice = await db.invoice.findUnique({
-    where: {
-      orderReference: orderId,
-    },
-  });
+  // const invoice = await db.invoice.findUnique({
+  //   where: {
+  //     orderReference: orderId,
+  //   },
+  // });
 
-  if (invoice) return null;
-
-  await db.invoice.create({
-    data: {
-      amount,
-      currency,
-      createdDate: orderDate,
-      orderReference: orderId,
-      products: {
-        create: [{ productName: "", productCount: "1", productPrice: "" }],
-      },
-      user: {},
-    },
-  });
+  // await db.invoice.create({
+  //   data: {
+  //     amount,
+  //     currency,
+  //     createdDate: orderDate,
+  //     orderReference: orderId,
+  //     products: {
+  //       create: [{ productName: "", productCount: "1", productPrice: "" }],
+  //     },
+  //   },
+  // });
 
   const HTML_FORM = `
   <form method="post" action="https://secure.wayforpay.com/pay" accept-charset="utf-8">
