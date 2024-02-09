@@ -1,9 +1,8 @@
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 
-export async function POST(request: NextApiRequest) {
-  const { parsedResponse, invoice, owner } = request.body;
+export async function POST(request: NextRequest) {
+  const { parsedResponse, invoice, owner } = await request.json();
 
   try {
     await db.invoice.create({

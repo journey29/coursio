@@ -20,7 +20,7 @@ const PaymenySuccessPage = () => {
             .then(data => {
                 console.log(data); // Handle the JSON response data
             });
-    })
+    }, [])
 
     return (
         <div></div>
