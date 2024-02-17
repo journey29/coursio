@@ -1,15 +1,23 @@
-'use client'
-import { Button } from "@/components/ui/button"
+"use client";
+import { Button } from "@/components/ui/button";
 import { LoginSchema, LoginSchemaType } from "@/schemas";
 import Link from "next/link";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { login } from "@/actions/login";
-import Social from "../Socials";
+import Socials from "../Socials";
+import { FormSuccess } from "../FormSuccess";
+import { FormError } from "../FormError";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+} from "@/components/ui/card";
 
 const LoginForm = () => {
     const {
@@ -20,97 +28,120 @@ const LoginForm = () => {
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
-            password: ""
-        }
+            password: "",
+        },
     });
-    const [success, setSuccess] = useState<string | undefined>('');
-    const [error, setError] = useState<string | undefined>('');
+    const [success, setSuccess] = useState<string | undefined>("");
+    const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
-    const [showCode, setShowCode] = useState(false)
+    const [showCode, setShowCode] = useState(false);
     const searchParams = useSearchParams();
-    const urlError = searchParams.get('error') === 'OAuthAccountNotLinked' ? 'Email already in use with different provider!' : '';
+    const urlError =
+        searchParams.get("error") === "OAuthAccountNotLinked"
+            ? "Email already in use with different provider!"
+            : "";
 
     const onSubmit = (values: LoginSchemaType) => {
-        setError('')
-        setSuccess('')
+        setError("");
+        setSuccess("");
 
         startTransition(() => {
-            login(values)
-                .then(data => {
-                    if (data?.error || data?.success) {
-                        setSuccess(data?.success)
-                        setError(data?.error)
-                    }
+            login(values).then((data) => {
+                if (data?.error) {
+                    setError(data?.error);
+                }
 
-                    if (data?.twoFactor) {
-                        setShowCode(true)
-                    }
-                })
-        })
-    }
+                if (data?.success) {
+                    setSuccess(data?.success);
+                }
+
+                if (data?.twoFactor) {
+                    setShowCode(true);
+                }
+            });
+        });
+    };
 
     return (
-        <>
-            {showCode &&
-                <form className="shadow-lg pt-[42px] pb-[25px] px-[42px] my-[25px]" onSubmit={handleSubmit(onSubmit)}>
-                    <Label htmlFor="code" className="font-bold">Code</Label>
-                    <Input
-                        {...register('code')}
-                        className="mt-2"
-                        name="code"
-                    />
-                    <div className="flex justify-between items-center">
-                        <Link href="/auth/reset" className="text-secondary-foreground hover:text-primary-foreground font-light" >You forget the password?</Link>
-                    </div>
+        <Card className="w-full max-w-[600px] shadow-md dark:border-none">
+            <CardHeader>
+                <p className="text-center text-3xl font-bold">Login</p>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {showCode && (
+                        <>
+                            <div>
+                                <Label htmlFor="code" className="font-bold">
+                                    Code
+                                </Label>
+                                <Input
+                                    {...register("code")}
+                                    className="mb-3 mt-2"
+                                    name="code"
+                                />
+                            </div>
+                            <Link href="/auth/reset" className="font-light">
+                                You forget the password?
+                            </Link>
+                        </>
+                    )}
+                    {!showCode && (
+                        <>
+                            <div className="mb-4">
+                                <Label htmlFor="email" className="font-medium">
+                                    Email
+                                </Label>
+                                <Input
+                                    {...register("email")}
+                                    type="text"
+                                    className="mb-3 mt-2 text-black"
+                                    name="email"
+                                />
+                                {errors.email && (
+                                    <p className="text-primary">{`${errors.email.message}`}</p>
+                                )}
+                            </div>
+                            <div className="mb-4">
+                                <Label htmlFor="password" className="font-medium">
+                                    Password
+                                </Label>
+                                <Input
+                                    {...register("password")}
+                                    type="password"
+                                    className="mb-3 mt-2 text-black"
+                                    name="password"
+                                />
+                                {errors.password && (
+                                    <p className="text-primary">{`${errors.password.message}`}</p>
+                                )}
+                            </div>
+                            <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
+                                <Link href="/auth/register" className="font-light">
+                                    Don't have an account yet
+                                </Link>
+                                <Link href="/auth/reset" className="font-light">
+                                    Forget the password
+                                </Link>
+                            </div>
+                        </>
+                    )}
+                    <FormSuccess message={success} />
+                    <FormError message={error || urlError} />
                     <Button
-                        variant={'custom'}
-                        type="submit"
-                        className="my-3 max-w-40 h-[50px] rounded-2xl font-light disabled:bg-gray-500"
+                        className="my-3 h-[50px] w-full max-w-40 rounded-2xl text-[17px]"
                         disabled={isPending}
-                    >
-                        Confirm
-                    </Button>
-                    <div>{error || urlError}</div>
-                    <div>{success}</div>
-                </form>
-            }
-            {!showCode &&
-                <form className="shadow-lg pt-[42px] pb-[25px] px-[42px] my-[25px]" onSubmit={handleSubmit(onSubmit)}>
-                    <Label htmlFor="email" className="font-bold">Email</Label>
-                    <Input
-                        {...register('email')}
-                        type="text"
-                        className="mt-2"
-                        name="email"
-                    />
-                    {errors.email && <p>{`${errors.email.message}`}</p>}
-                    <Label htmlFor="password" className="font-bold">Password</Label>
-                    <Input
-                        {...register('password')}
-                        type="password"
-                        className="mt-2"
-                        name="password"
-                    />
-                    {errors.password && <p>{`${errors.password.message}`}</p>}
-                    <div className="flex justify-between items-center">
-                        <Link href="/auth/register" className="text-secondary-foreground hover:text-primary-foreground font-light" >Don't have an account yet?</Link>
-                        <Link href="/auth/reset" className="text-secondary-foreground hover:text-primary-foreground font-light" >You forget the password?</Link>
-                    </div>
-                    <Button
-                        variant={'custom'}
                         type="submit"
-                        className="my-3 max-w-40 h-[50px] rounded-2xl font-light disabled:bg-gray-500"
-                        disabled={isPending}
                     >
-                        Login
+                        {showCode ? "Confirm" : "Login"}
                     </Button>
-                    <div>{error || urlError}</div>
-                    <div>{success}</div>
-                    <Social />
                 </form>
-            }
-        </>
-    )
-}
+            </CardContent>
+            <CardFooter>
+                <Socials disabled={isPending} />
+            </CardFooter>
+        </Card>
+    );
+};
 
-export default LoginForm
+export default LoginForm;

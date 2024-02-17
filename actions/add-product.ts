@@ -4,16 +4,16 @@ import db from "@/lib/db";
 export const addProduct = async () => {
   await db.course.create({
     data: {
-      costType: "Free",
-      description: `Do you wish to learn more about the Front-End developer profession and try your skills in this direction? Then we invite you to participate in the Front-End Essentials self-study program — a course for 
-      those who possess basic skills in JavaScript development and wish to grow their knowledge of this sphere.`,
-      languages: ["English", "German"],
+      costType: "Premium",
+      price: "168$",
+      description: `AWS Authorized Instructors emphasize best practices using the AWS. Through a series of use case scenarios and practical learning, you'll explore AWS services that can be applied to solve architectural problems. You’ll find opportunities to combine your new knowledge with critical thinking and problem-solving skills.`,
+      languages: ["Ukrainian", "German"],
       imageUrl:
-        "https://img.freepik.com/free-photo/man-using-external-storage-used_23-2149388543.jpg?w=360&t=st=1707231273~exp=1707231873~hmac=2ef9f612cfd207f0afe94b2ede607dd43850cc437f01c8b6f6dd4f17036ca24e",
-      duration: "2 weeks",
-      level: "Intermidiate",
-      title: "Front-End Self-Paced",
-      type: "SelfStudy",
+        "https://img.freepik.com/free-photo/male-drinking-juice-reading-book_23-2147864202.jpg?w=360&t=st=1707947969~exp=1707948569~hmac=22a886088c9d09f9b99135ad825fb636fa6f98d77f9fe5dfc0a911f7f0ad839b",
+      duration: "7 days",
+      level: "Advanced",
+      title: "Advanced Architecting on AWS",
+      type: "WorkShop",
     },
   });
 };

@@ -2,7 +2,9 @@ import NewVerificationForm from '@/components/account/NewVerificationForm'
 
 const NewVerificationPage = () => {
     return (
-        <NewVerificationForm />
+        <div className='flex items-center justify-center h-full'>
+            <NewVerificationForm />
+        </div>
     )
 }
 

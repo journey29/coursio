@@ -1,47 +1,53 @@
-import Link from "next/link"
-import { faUser, faSearch, faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Cart from "../cart/Cart"
+"use client";
+import Link from "next/link";
+import { faUser, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Cart from "../cart/Cart";
+import { Button } from "../ui/button";
+import { useTheme } from "next-themes";
+import Container from "../Container";
 
 const Header = () => {
-    return (
-        <header className="flex flex-col items-center py-8">
-            <div className="flex items-center space-x-8">
-                <nav className="flex items-center">
-                    <ul className="flex items-center space-x-10">
-                        <li className="h-[50px] flex items-center">
-                            <Link className="text-primery-foreground" href="/">Sertificates</Link>
-                        </li>
-                        <li className="h-[50px] flex items-center">
-                            <Link className="text-primery-foreground" href="/">Payment and documents</Link>
-                        </li>
-                        <li className="h-[50px] flex items-center">
-                            <Link className="text-primery-foreground" href="/">Contacts</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <div className="space-x-6 flex items-center">
-                    <Link className="h-[50px] flex items-center" href="/profile">
-                        <FontAwesomeIcon
-                            icon={faUser}
-                            className="hover:text-green-800 text-primary-foreground"
-                            width={20}
-                            height={20}
-                        />
-                    </Link>
-                    <Link className="h-[50px] flex items-center" href="/">
-                        <FontAwesomeIcon
-                            icon={faSearch}
-                            className="hover:text-green-800 text-primary-foreground"
-                            width={20}
-                            height={20}
-                        />
-                    </Link>
-                    <Cart />
-                </div>
-            </div>
-        </header>
-    )
-}
+    const { theme, setTheme } = useTheme();
 
-export default Header
+    return (
+        <header className="sticky left-0 right-0 top-0 z-20 bg-white py-8 dark:bg-[#27282a]">
+            <Container>
+                <div className="flex w-full items-center justify-between">
+                    <div>
+                        <Link className="text-3xl font-bold text-primary" href="/">
+                            Coursio
+                        </Link>
+                    </div>
+                    <div className="flex items-center">
+                        <Button
+                            className="px-3"
+                            variant={"ghost"}
+                            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        >
+                            <FontAwesomeIcon
+                                className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+                                icon={faSun}
+                            />
+                            <FontAwesomeIcon
+                                className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+                                icon={faMoon}
+                            />
+                        </Button>
+                        <Button
+                            className="px-3"
+                            variant={"ghost"}
+                            asChild>
+                            <Link className="flex items-center" href="/profile">
+                                <FontAwesomeIcon className="h-5 w-5" icon={faUser} />
+                            </Link>
+                        </Button>
+                        <Cart />
+                    </div>
+                </div>
+            </Container>
+        </header>
+    );
+};
+
+export default Header;

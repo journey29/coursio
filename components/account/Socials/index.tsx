@@ -6,7 +6,11 @@ import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons"
 import { signIn } from "next-auth/react"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 
-const Socials = () => {
+type Props = {
+    disabled: boolean
+}
+
+const Socials = ({ disabled }: Props) => {
 
     const onClick = (provider: 'google' | 'github') => {
         signIn(provider, {
@@ -15,11 +19,12 @@ const Socials = () => {
     }
 
     return (
-        <div className="w-full flex items-center space-x-4 my-4">
+        <div className="w-full flex items-center space-x-4">
             <Button
                 className="w-full py-6"
                 size={'lg'}
                 onClick={() => onClick('google')}
+                disabled={disabled}
             >
                 <FontAwesomeIcon className="w-5 h-5" color="white" icon={faGoogle} width={20} height={20} />
             </Button>
@@ -27,6 +32,7 @@ const Socials = () => {
                 className="w-full py-6"
                 size={'lg'}
                 onClick={() => onClick('github')}
+                disabled={disabled}
             >
                 <FontAwesomeIcon className="w-5 h-5" color="white" icon={faGithub} width={20} height={20} />
             </Button>

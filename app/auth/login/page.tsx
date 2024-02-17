@@ -3,7 +3,9 @@ import React from 'react'
 
 const LoginPage = () => {
     return (
-        <LoginForm />
+        <div className='flex items-center justify-center h-full'>
+            <LoginForm />
+        </div>
     )
 }
 

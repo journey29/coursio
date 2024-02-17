@@ -2,7 +2,9 @@ import ResetForm from "@/components/account/ResetForm"
 
 const ResetPage = () => {
     return (
-        <ResetForm />
+        <div className='flex items-center justify-center h-full'>
+            <ResetForm />
+        </div>
     )
 }
 

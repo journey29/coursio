@@ -8,6 +8,10 @@ import { useState, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { reset } from "@/actions/reset";
+import AuthButton from "../AuthButton";
+import { FormError } from "../FormError";
+import { FormSuccess } from "../FormSuccess";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const ResetForm = () => {
     const {
@@ -38,31 +42,35 @@ const ResetForm = () => {
     }
 
     return (
-        <>
-            <form className="shadow-lg pt-[42px] pb-[25px] px-[42px] my-[25px]" onSubmit={handleSubmit(onSubmit)}>
-                <Label htmlFor="email" className="font-bold">Email</Label>
-                <Input
-                    {...register("email")}
-                    type="text"
-                    className="mt-2"
-                    name="email"
-                />
-                {errors.email && <p>{`${errors.email.message}`}</p>}
-                <div className="flex justify-between items-center">
-                    <Link href="/auth/register" className="text-secondary-foreground hover:text-primary-foreground font-light" >Don't have an account yet?</Link>
-                </div>
-                <Button
-                    variant={'custom'}
-                    type="submit"
-                    className="my-3 max-w-40 h-[50px] rounded-2xl font-light disabled:bg-gray-500"
-                    disabled={isPending}
-                >
-                    Reset
-                </Button>
-                <div>{error}</div>
-                <div>{success}</div>
-            </form>
-        </>
+        <Card className="w-full max-w-[600px] shadow-md dark:border-none">
+            <CardHeader>
+                <p className="text-center text-3xl font-bold">Reset Password</p>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-4">
+                        <Label htmlFor="email" className="font-bold">
+                            Email
+                        </Label>
+                        <Input
+                            {...register("email")}
+                            type="text"
+                            className="mb-3 mt-2"
+                            name="email"
+                        />
+                        {errors.email && (
+                            <p className="text-primary/50">{`${errors.email.message}`}</p>
+                        )}
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <Link href="/auth/register" className="font-light" >Don't have an account yet?</Link>
+                    </div>
+                    <FormError message={error} />
+                    <FormSuccess message={success} />
+                    <AuthButton label="Reset" />
+                </form>
+            </CardContent>
+        </Card>
     )
 }
 

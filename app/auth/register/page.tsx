@@ -3,7 +3,9 @@ import React from 'react'
 
 const RegisterPage = () => {
     return (
-        <RegisterForm />
+        <div className='flex items-center justify-center h-full'>
+            <RegisterForm />
+        </div>
     )
 }
 

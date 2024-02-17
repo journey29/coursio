@@ -1,12 +1,15 @@
+'use client'
 import { createWayForPayForm } from "@/actions/payment"
+import { useAppSelector } from "@/hooks/redux"
+import { store } from "@/store";
+import { v4 as uuid } from 'uuid'
+import ReduxClientPayment from "../ReduxClientPayment";
 
 
-const Payment = async () => {
-    const form: any = await createWayForPayForm({ amount: '30', currency: "UAH", orderId: "DH1720683328", productName: 'Some cool item', buttonTitle: 'CLick' })
-
+const Payment = () => {
 
     return (
-        <div dangerouslySetInnerHTML={{ __html: form }} />
+        <></>
     )
 }
 

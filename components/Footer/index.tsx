@@ -1,40 +1,44 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import Logo from '@/public/logo-white.png'
-import Container from '../Container'
+import Link from "next/link";
+import Container from "../Container";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
     return (
-        <footer className='bg-[#27282a] py-[34px] px-[42px] text-[#96989A] flex flex-col items-center shrink-0'>
+        <footer className="shrink-0 bg-[#27282a] px-[42px] py-[34px] text-[#96989A]">
             <Container>
-                <div className='flex items-center justify-between'>
-                    <div className='flex items-center gap-6'>
-                        <Image src={Logo} alt='logo' width={78} height={93} />
-                        <p>
-                            ©
-                            <Link href="/" className='hover:text-secondary transition-all mx-2 text-[17px]'>Rabbit Hall</Link>
-                            <span>– erotic massage in Prague</span>
-                        </p>
+                <div className="flex flex-col items-center gap-3">
+                    <p>
+                        Made by <span className="underline">Andrii Smaluniuk</span>
+                    </p>
+                    <div className="flex items-center gap-8">
+                        <Link
+                            className="group"
+                            href="https://github.com/journey29"
+                            target="_blank"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-2 group-hover:text-[#171515]"
+                                icon={faGithub}
+                            />
+                            <span className="group-hover:text-[#171515]">Github</span>
+                        </Link>
+                        <Link
+                            className="group"
+                            href="https://www.linkedin.com/in/andrii-smalyniuk-2b9b86210/"
+                            target="_blank"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-2 group-hover:text-[#0e76a8]"
+                                icon={faLinkedin}
+                            />
+                            <span className="group-hover:text-[#0e76a8]">Linkedin</span>
+                        </Link>
                     </div>
-                    <ul className='flex items-center gap-4'>
-                        <li>
-                            <Link href="" className='hover:text-secondary transition-all text-[17px]'>Подарункові сертифікати</Link>
-                        </li>
-                        <li>
-                            <Link href="/payment-recommendation" className='hover:text-secondary transition-all text-[17px]'>Плата і документи</Link>
-                        </li>
-                        <li>
-                            <Link href="" className='hover:text-secondary transition-all text-[17px]'>Контакти</Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className='flex items-center justify-center gap-6'>
-                    <Link href="" className='hover:text-secondary transition-all text-[13px]'>Умови та положення</Link>
-                    <Link href="" className='hover:text-secondary transition-all text-[13px]'>Захист персональних даних</Link>
                 </div>
             </Container>
         </footer>
-    )
-}
+    );
+};
 
-export default Footer
+export default Footer;

@@ -2,7 +2,9 @@ import NewPasswordForm from "@/components/account/NewPasswordForm"
 
 const NewPasswordPage = () => {
     return (
-        <NewPasswordForm />
+        <div className='flex items-center justify-center h-full'>
+            <NewPasswordForm />
+        </div>
     )
 }
 

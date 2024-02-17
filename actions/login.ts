@@ -31,12 +31,12 @@ export const login = async (values: LoginSchemaType) => {
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
-      existingUser.email
+      existingUser.email,
     );
 
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
     );
 
     return { success: "Confirmation email sent!" };
@@ -64,7 +64,7 @@ export const login = async (values: LoginSchemaType) => {
         });
 
         const existingConfirmation = await getTwoFactorConfirmationByUserId(
-          existingUser.id
+          existingUser.id,
         );
 
         if (existingConfirmation) {

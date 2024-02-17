@@ -1,32 +1,28 @@
-import { addProduct } from '@/actions/add-product'
-import Course from '@/components/main/Course'
-import db from '@/lib/db'
+import LoadMore from "../LoadMore";
+import { fetchCourses } from "@/actions/fetch-courses";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFaceSadCry } from "@fortawesome/free-solid-svg-icons";
 
 const Main = async () => {
-    const courses = await db.course.findMany({});
+    const courses = await fetchCourses(1);
 
     return (
-        <section className='mb-16'>
-            <h1 className="text-center text-4xl">Подарункові сертифікати</h1>
-            <form action={addProduct}>
-                <button type='submit'>click</button>
-            </form>
-            <div className='grid grid-cols-3 gap-5'>
-                {courses.map(course => {
-                    return <Course key={course.id}
-                        id={course.id}
-                        title={course.title}
-                        price={course.price ? course.price : null}
-                        costType={course.costType}
-                        languages={course.languages}
-                        type={course.type}
-                        level={course.level}
-                        duration={course.duration}
-                    />
-                })}
+        <section className="mb-16">
+            <h1 className="text-center text-4xl">Courses</h1>
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {courses || (
+                    <p className="col-span-3 flex items-center justify-center text-center text-2xl">
+                        <FontAwesomeIcon
+                            className="mr-5 h-10 w-10 text-primary"
+                            icon={faFaceSadCry}
+                        />
+                        Courses have not been added yet!
+                    </p>
+                )}
             </div>
+            <LoadMore />
         </section>
-    )
-}
+    );
+};
 
-export default Main
+export default Main;
