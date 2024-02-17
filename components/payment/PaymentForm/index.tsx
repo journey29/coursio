@@ -9,7 +9,7 @@ const PaymentForm = () => {
     const [form, setForm] = useState<any>();
     const { cartItems } = useCart(state => state);
     const cartTotal = cartItems.reduce((acc, i) => acc + (i.price ?? 0), 0).toString();
-    const orderId = uuid();
+    const orderId = 'DH1708190032';
     const cartTitles = cartItems.map(cartItem => `${cartItem.title}`);
     const cartPrices = cartItems.map(cartItem => `${cartItem?.price ?? 0}`)
     const cartCountes = cartItems.map(() => "1")
