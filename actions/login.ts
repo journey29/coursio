@@ -34,10 +34,10 @@ export const login = async (values: LoginSchemaType) => {
       existingUser.email,
     );
 
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token,
-    );
+    await sendVerificationEmail({
+      to: verificationToken.email,
+      token: verificationToken.token,
+    });
 
     return { success: "Confirmation email sent!" };
   }
@@ -81,7 +81,7 @@ export const login = async (values: LoginSchemaType) => {
       }
     } else {
       const twoFactorToken = await generateTwoFactorToken(email);
-      await sendTwoFactorTokenEmail(email, twoFactorToken.token);
+      await sendTwoFactorTokenEmail({ to: email, token: twoFactorToken.token });
 
       return { twoFactor: true };
     }

@@ -33,7 +33,10 @@ export const handleRegister = async (values: RegisterSchemaType) => {
 
   const verificationToken = await generateVerificationToken(email);
 
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  await sendVerificationEmail({
+    to: verificationToken.email,
+    token: verificationToken.token,
+  });
 
   return { success: "Confirmation email sent!" };
 };

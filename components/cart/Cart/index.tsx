@@ -15,16 +15,13 @@ import Link from "next/link";
 import { useCart } from "@/hooks/use-cart";
 
 const Cart = () => {
-    const cartItems = useCart(state => state.cartItems)
+    const cartItems = useCart((state) => state.cartItems);
     const cartTotal = cartItems.reduce((acc, item) => acc + (item.price ?? 0), 0);
 
     return (
         <Sheet>
-            <SheetTrigger className="relative">
-                <Button
-                    className="px-3"
-                    variant={"ghost"}
-                >
+            <SheetTrigger className="relative" asChild>
+                <Button className="px-3" variant={"ghost"}>
                     <FontAwesomeIcon className="h-5 w-5" icon={faCartShopping} />
                     <span className="absolute -bottom-[5px] -right-[5px] flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-white">
                         {cartItems.length}

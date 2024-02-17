@@ -51,17 +51,19 @@ const createPaymentForm = async (options: InvoiceType) => {
     buttonTitle,
   } = options;
 
-  const productNameString = productName.map(item => `${item};`).join('');
-  const productCountString = productCount.map(item => `${item};`).join('');
-  const productPriceString = productPrice.map(item => `${item};`).join('');
+  const productNameString = productName.map((item) => `${item};`).join("");
+  const productCountString = productCount.map((item) => `${item};`).join("");
+  const productPriceString = productPrice.map((item) => `${item};`).join("");
 
   const today = new Date();
   const orderDate = Math.floor(today.getTime() / 1000);
 
   const wayForPaySecretKey = process.env.WAYFORPAY_SECRET_KEY!;
-  const message = `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productNameString}${productCountString}${productPriceString}`.slice(0, -1);
-
-  console.log(message)
+  const message =
+    `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productNameString}${productCountString}${productPriceString}`.slice(
+      0,
+      -1,
+    );
 
   const hmac = crypto.createHmac("md5", wayForPaySecretKey);
   hmac.update(message);
@@ -73,6 +75,10 @@ const createPaymentForm = async (options: InvoiceType) => {
   //   },
   // });
 
+  // if (invoice) {
+  //   return null
+  // }
+
   // await db.invoice.create({
   //   data: {
   //     amount,
@@ -80,34 +86,37 @@ const createPaymentForm = async (options: InvoiceType) => {
   //     createdDate: orderDate,
   //     orderReference: orderId,
   //     products: {
-  //       create: [{ productName: "", productCount: "1", productPrice: "" }],
+  //       create: [{s, productCount: "1", productPrice: "" }],
   //     },
   //   },
   // });
 
-  const productCountArray = productCount.map((value) => (
-    `<input
+  const productCountArray = productCount.map(
+    (value) =>
+      `<input
       type="hidden"
       name="productCount[]"
       value="${value}""
-    >`
-  ));
+    >`,
+  );
 
-  const productPriceArray = productPrice.map((value) => (
-    `<input
+  const productPriceArray = productPrice.map(
+    (value) =>
+      `<input
       type="hidden"
       name="productPrice[]"
       value="${value}""
-    >`
-  ));
+    >`,
+  );
 
-  const productNameArray = productName.map((value) => (
-    `<input
+  const productNameArray = productName.map(
+    (value) =>
+      `<input
       type="hidden"
       name="productName[]"
       value="${value}""
-    >`
-  ));
+    >`,
+  );
 
   const HTML_FORM = `
   <form method="post" action="https://secure.wayforpay.com/pay" accept-charset="utf-8">
@@ -121,12 +130,12 @@ const createPaymentForm = async (options: InvoiceType) => {
   <input type='hidden' name="amount" value="${amount}">
   <input type='hidden' name="currency" value="${currency}">
   <input type='hidden' name="orderTimeout" value="49000">
-  ${productNameArray.join('')}
-  ${productPriceArray.join('')}
-  ${productCountArray.join('')}
+  ${productNameArray.join("")}
+  ${productPriceArray.join("")}
+  ${productCountArray.join("")}
   <input type='hidden' name="defaultPaymentSystem" value="card">
   <input type='hidden' name="merchantSignature" value="${merchantSignature}">
-  <input type="submit" value="${buttonTitle}">
+  <input class="bg-primary text-white shadow hover:bg-primary/90 p-5 h-[50px] w-full cursor-pointer rounded-lg text-xl font-semibold" type="submit" value="${buttonTitle}">
 </form>
 `;
 

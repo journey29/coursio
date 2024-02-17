@@ -1,36 +1,72 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
 
-const domain = process.env.NEXT_PUBLIC_APP_URL;
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: SMTP_EMAIL,
+    pass: SMTP_PASSWORD,
+  },
+});
 
-export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
-  await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: email,
-    subject: "Two factor token",
-    html: `<p>Your two factor verification token: ${token}</p>`,
-  });
+export const sendVerificationEmail = async ({
+  to,
+  token,
+}: {
+  to: string;
+  token: string;
+}) => {
+  try {
+    const confirmLink = `${process.env.AUTH_URL}/auth/new-verification?token=${token}`;
+
+    await transport.sendMail({
+      from: SMTP_EMAIL,
+      to,
+      subject: "Confirm your email",
+      html: `<p>Confirm your email by <a href="${confirmLink}">link</a></p>`,
+    });
+  } catch {
+    return null;
+  }
 };
 
-export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `${domain}/auth/new-verification?token=${token}`;
+export const sendResetEmail = async ({
+  to,
+  token,
+}: {
+  to: string;
+  token: string;
+}) => {
+  try {
+    const resetLink = `${process.env.AUTH_URL}/auth/new-password?token=${token}`;
 
-  await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: email,
-    subject: "Confirm your email",
-    html: `<p>Confirm your email by <a href="${confirmLink}">link</a></p>`,
-  });
+    await transport.sendMail({
+      from: SMTP_EMAIL,
+      to,
+      subject: "Reset your password",
+      html: `<p>Reset your password by <a href="${resetLink}">link</a></p>`,
+    });
+  } catch {
+    return null;
+  }
 };
 
-export const sendResetEmail = async (email: string, token: string) => {
-  const resetLink = `${domain}/auth/new-password?token=${token}`;
-
-  await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: email,
-    subject: "Reset your password",
-    html: `<p>Reset your password by <a href="${resetLink}">link</a></p>`,
-  });
+export const sendTwoFactorTokenEmail = async ({
+  to,
+  token,
+}: {
+  to: string;
+  token: string;
+}) => {
+  try {
+    await transport.sendMail({
+      from: SMTP_EMAIL,
+      to,
+      subject: "Two factor token",
+      html: `<p>Your two factor verification token: ${token}</p>`,
+    });
+  } catch {
+    return null;
+  }
 };

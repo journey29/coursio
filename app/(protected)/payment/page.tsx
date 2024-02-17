@@ -3,7 +3,9 @@ import Payment from "@/components/payment/Payment"
 const PaymentPage = () => {
 
     return (
-        <Payment />
+        <div className='flex items-center justify-center h-full w-full'>
+            <Payment />
+        </div>
     )
 }
 

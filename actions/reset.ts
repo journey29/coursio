@@ -21,7 +21,7 @@ export const reset = async (values: ResetSchemaType) => {
   }
 
   const resetToken = await generateResetToken(email);
-  await sendResetEmail(email, resetToken.token);
+  await sendResetEmail({ to: email, token: resetToken.token });
 
   return { success: "Reset email sent!" };
 };

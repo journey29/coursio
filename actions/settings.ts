@@ -36,7 +36,10 @@ export const settings = async (values: SettingsSchemaType) => {
     }
 
     const verificationToken = await generateVerificationToken(values.email);
-    await sendVerificationEmail(values.email, verificationToken.token);
+    await sendVerificationEmail({
+      to: verificationToken.email,
+      token: verificationToken.token,
+    });
 
     return { success: "Verification email sent!" };
   }

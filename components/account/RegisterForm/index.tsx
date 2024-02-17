@@ -36,11 +36,11 @@ const RegisterForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            handleRegister(values).then((data) => {
-                toast.success("Welcome to Coursio!");
-                setSuccess(data.success);
-                setError(data.error);
-            });
+            handleRegister(values)
+                .then((data) => {
+                    setSuccess(data.success);
+                    setError(data.error);
+                });
         });
     };
 
