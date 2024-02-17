@@ -18,7 +18,7 @@ const Footer = () => {
                             target="_blank"
                         >
                             <FontAwesomeIcon
-                                className="mr-2 group-hover:text-[#171515]"
+                                className="mr-2 w-5 h-5 group-hover:text-[#171515]"
                                 icon={faGithub}
                             />
                             <span className="group-hover:text-[#171515]">Github</span>
@@ -29,7 +29,7 @@ const Footer = () => {
                             target="_blank"
                         >
                             <FontAwesomeIcon
-                                className="mr-2 group-hover:text-[#0e76a8]"
+                                className="mr-2 w-5 h-5 group-hover:text-[#0e76a8]"
                                 icon={faLinkedin}
                             />
                             <span className="group-hover:text-[#0e76a8]">Linkedin</span>

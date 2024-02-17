@@ -10,17 +10,18 @@ const PaymentForm = () => {
     const { cartItems } = useCart(state => state);
     const cartTotal = cartItems.reduce((acc, i) => acc + (i.price ?? 0), 0).toString();
     const orderId = uuid();
-    const cartTitles = cartItems.map(cartItem => `${cartItem.title};`);
-    const cartPrices = cartItems.map(cartItem => `${cartItem?.price ?? 0};`)
+    const cartTitles = cartItems.map(cartItem => `${cartItem.title}`);
+    const cartPrices = cartItems.map(cartItem => `${cartItem?.price ?? 0}`)
+    const cartCountes = cartItems.map(() => "1")
 
     useEffect(() => {
         createWayForPayForm({
             amount: cartTotal,
             currency: "UAH",
             orderId,
-            productName: cartTitles.join(''),
-            productCount: cartItems.length.toString(),
-            productPrice: cartPrices.join(''),
+            productName: cartTitles,
+            productCount: cartCountes,
+            productPrice: cartPrices,
             buttonTitle: 'Pay'
         })
             .then(data => setForm(data))
