@@ -2,8 +2,26 @@
 import crypto from "crypto";
 import db from "@/lib/db";
 
-export const createWayForPayForm = async (options: any) => {
-  const { amount, currency, orderId, productName, buttonTitle } = options;
+type InvoiceType = {
+  amount: string;
+  currency: string;
+  orderId: string;
+  productName: string;
+  productCount: string;
+  productPrice: string;
+  buttonTitle: string;
+};
+
+export const createWayForPayForm = async (options: InvoiceType) => {
+  const {
+    amount,
+    currency,
+    orderId,
+    productName,
+    productCount,
+    productPrice,
+    buttonTitle,
+  } = options;
 
   try {
     const wayForPayForm = await createPaymentForm({
@@ -11,6 +29,8 @@ export const createWayForPayForm = async (options: any) => {
       currency,
       orderId,
       productName,
+      productCount,
+      productPrice,
       buttonTitle,
     });
 
@@ -20,20 +40,22 @@ export const createWayForPayForm = async (options: any) => {
   }
 };
 
-const createPaymentForm = async (options: {
-  amount: string;
-  currency: string;
-  orderId: string;
-  productName: string;
-  buttonTitle: string;
-}) => {
-  const { amount, currency, orderId, productName, buttonTitle } = options;
+const createPaymentForm = async (options: InvoiceType) => {
+  const {
+    amount,
+    currency,
+    orderId,
+    productName,
+    productCount,
+    productPrice,
+    buttonTitle,
+  } = options;
 
   const today = new Date();
   const orderDate = Math.floor(today.getTime() / 1000);
 
   const wayForPaySecretKey = process.env.WAYFORPAY_SECRET_KEY!;
-  const message = `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productName};1;30`;
+  const message = `${process.env.MERCHANT_ACCOUNT};${process.env.MERCHANT_DOMAIN};${orderId};${orderDate};${amount};${currency};${productName}${productCount}${productPrice}`;
 
   const hmac = crypto.createHmac("md5", wayForPaySecretKey);
   hmac.update(message);
@@ -59,13 +81,9 @@ const createPaymentForm = async (options: {
 
   const HTML_FORM = `
   <form method="post" action="https://secure.wayforpay.com/pay" accept-charset="utf-8">
-  <input type='hidden' name="merchantAccount" value="${
-    process.env.MERCHANT_ACCOUNT
-  }">
+  <input type='hidden' name="merchantAccount" value="${process.env.MERCHANT_ACCOUNT}">
   <input type='hidden' name="merchantAuthType" value="SimpleSignature">
-  <input type='hidden' name="merchantDomainName" value="${
-    process.env.MERCHANT_DOMAIN
-  }">
+  <input type='hidden' name="merchantDomainName" value="${process.env.MERCHANT_DOMAIN}">
   <input type='hidden' name="orderReference" value="${orderId}">
   <input type='hidden' name="orderDate" value="${orderDate}">
   <input type='hidden' name="amount" value="${amount}">
@@ -74,9 +92,7 @@ const createPaymentForm = async (options: {
   <input type='hidden' name="productName[]" value="${productName}">
   <input type='hidden' name="productPrice[]" value="${amount}">
   <input type='hidden' name="productCount[]" value="${1}">
-  <input type='hidden' name="serviceUrl" value="${
-    process.env.MERCHANT_DOMAIN
-  }/api/wayforpay/payment-status">
+  <input type='hidden' name="serviceUrl" value="${process.env.MERCHANT_DOMAIN}/api/wayforpay/payment-status">
   <input type='hidden' name="defaultPaymentSystem" value="card">
   <input type='hidden' name="merchantSignature" value="${merchantSignature}">
   <input type="submit" value="${buttonTitle}">

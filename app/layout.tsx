@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Container from "@/components/Container";
 import { Toaster } from 'sonner'
 import "./globals.css";
-import { ReduxProvider, ThemeProvider } from "@/components/Providers";
+import { ThemeProvider } from "@/components/Providers";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -27,18 +27,16 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={roboto.className}>
-          <ReduxProvider>
-            <ThemeProvider defaultTheme="system" attribute="class" enableSystem>
-              <Header />
-              <main className="main">
-                <Container>
-                  {children}
-                </Container>
-              </main>
-              <Footer />
-              <Toaster position="bottom-center" />
-            </ThemeProvider>
-          </ReduxProvider>
+          <ThemeProvider defaultTheme="system" attribute="class" enableSystem>
+            <Header />
+            <main className="main">
+              <Container>
+                {children}
+              </Container>
+            </main>
+            <Footer />
+            <Toaster position="bottom-center" />
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>

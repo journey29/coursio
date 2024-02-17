@@ -16,11 +16,10 @@ import {
     faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { removeCart, setCart } from "@/store/features/cart";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useCart } from "@/hooks/use-cart";
 
 const variants = {
     hidden: { opacity: 0 },
@@ -38,8 +37,7 @@ const Course = ({
     id,
     index,
 }: CourseType & { index: number }) => {
-    const { cartItems } = useAppSelector((state) => state.cartReducer);
-    const dispatch = useAppDispatch();
+    const { cartItems, deleteItem, setCartItem } = useCart(state => state)
     const router = useRouter();
 
     const onClick = () => {
@@ -50,12 +48,12 @@ const Course = ({
         e.stopPropagation();
 
         const convertedPrice = formatPrice(price);
-        dispatch(setCart({ level, title, costType, id, price: convertedPrice }));
+        setCartItem({ level, title, costType, id, price: convertedPrice });
     };
 
     const removeFromCart = async (e: any) => {
         e.stopPropagation();
-        dispatch(removeCart({ level, title, costType, id }));
+        deleteItem(id);
     };
 
     return (

@@ -1,7 +1,5 @@
-"use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useAppSelector } from "@/hooks/redux";
 import {
     Sheet,
     SheetTrigger,
@@ -14,10 +12,10 @@ import CartItem from "../CartItem";
 import CartInfo from "../CartInfo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useCart } from "@/hooks/use-cart";
 
 const Cart = () => {
-    const { cartItems } = useAppSelector((state) => state.cartReducer);
-
+    const cartItems = useCart(state => state.cartItems)
     const cartTotal = cartItems.reduce((acc, item) => acc + (item.price ?? 0), 0);
 
     return (

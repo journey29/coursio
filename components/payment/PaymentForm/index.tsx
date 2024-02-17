@@ -1,12 +1,30 @@
+'use client'
 import { createWayForPayForm } from "@/actions/payment"
-import { store } from "@/store"
+import { useCart } from "@/hooks/use-cart"
+import { useEffect, useState } from "react"
+import { v4 as uuid } from 'uuid'
 
 
-const PaymentForm = async () => {
-    const state = store.getState();
+const PaymentForm = () => {
+    const [form, setForm] = useState<any>();
+    const { cartItems } = useCart(state => state);
+    const cartTotal = cartItems.reduce((acc, i) => acc + (i.price ?? 0), 0).toString();
+    const orderId = uuid();
+    const cartTitles = cartItems.map(cartItem => `${cartItem.title};`);
+    const cartPrices = cartItems.map(cartItem => `${cartItem?.price ?? 0};`)
 
-    console.log(state)
-    const form: any = await createWayForPayForm({ amount: '2', currency: "UAH", orderId: "DH1720703328", productName: 'Some cool item', buttonTitle: 'Pay' })
+    useEffect(() => {
+        createWayForPayForm({
+            amount: cartTotal,
+            currency: "UAH",
+            orderId,
+            productName: cartTitles.join(''),
+            productCount: cartItems.length.toString(),
+            productPrice: cartPrices.join(''),
+            buttonTitle: 'Pay'
+        })
+            .then(data => setForm(data))
+    }, [])
 
     return (
         <>
