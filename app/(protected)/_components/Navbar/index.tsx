@@ -17,6 +17,7 @@ const Navbar = ({ navLinks }: Props) => {
             <div className="flex items-center gap-4">
                 {navLinks.map((navLink) => (
                     <Button
+                        key={navLink.label}
                         variant={pathname === navLink.href ? "default" : "outline"}
                         asChild
                     >
