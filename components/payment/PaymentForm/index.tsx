@@ -17,7 +17,7 @@ const PaymentForm = () => {
     useEffect(() => {
         createWayForPayForm({
             amount: cartTotal,
-            currency: "UAH",
+            currency: "USD",
             orderId,
             productName: cartTitles,
             productCount: cartCountes,

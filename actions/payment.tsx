@@ -51,9 +51,9 @@ const createPaymentForm = async (options: InvoiceType) => {
     buttonTitle,
   } = options;
 
-  const productNameString = productName.map(item => `${item};`);
-  const productCountString = productName.map(item => `${item};`)
-  const productPriceString = productName.map(item => `${item};`)
+  const productNameString = productName.map(item => `${item};`).join('');
+  const productCountString = productCount.map(item => `${item};`).join('');
+  const productPriceString = productPrice.map(item => `${item};`).join('');
 
   const today = new Date();
   const orderDate = Math.floor(today.getTime() / 1000);
