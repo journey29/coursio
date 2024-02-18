@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { login } from "@/actions/login";
 import Socials from "../Socials";
@@ -18,13 +17,17 @@ import {
     CardFooter,
     CardHeader,
 } from "@/components/ui/card";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 
 const LoginForm = () => {
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<LoginSchemaType>({
+    const form = useForm<LoginSchemaType>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
@@ -65,77 +68,82 @@ const LoginForm = () => {
     return (
         <Card className="w-full max-w-[600px] shadow-md dark:border-none">
             <CardHeader>
-                <p className="text-center text-3xl font-bold">Login</p>
+                <p className="text-center text-3xl font-bold">
+                    {showCode ? "Two factor token" : "Login"}
+                </p>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {showCode && (
-                        <>
-                            <div>
-                                <Label htmlFor="code" className="font-bold">
-                                    Code
-                                </Label>
-                                <Input
-                                    {...register("code")}
-                                    className="mb-3 mt-2"
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        {showCode && (
+                            <>
+                                <FormField
                                     name="code"
-                                />
-                            </div>
-                            <Link href="/auth/reset" className="font-light">
-                                You forget the password?
-                            </Link>
-                        </>
-                    )}
-                    {!showCode && (
-                        <>
-                            <div className="mb-4">
-                                <Label htmlFor="email" className="font-medium">
-                                    Email
-                                </Label>
-                                <Input
-                                    {...register("email")}
-                                    type="text"
-                                    className="mb-3 mt-2 text-black"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-bold">Code</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="mb-3 mt-2 text-black" />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                ></FormField>
+                                <Link href="/auth/reset" className="block font-light">
+                                    You forget the password?
+                                </Link>
+                            </>
+                        )}
+                        {!showCode && (
+                            <>
+                                <FormField
                                     name="email"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem className="mb-4">
+                                            <FormLabel className="font-medium">Email</FormLabel>
+                                            <FormControl>
+                                                <Input className="mb-3 mt-2 text-black" {...field} />
+                                            </FormControl>
+                                            <FormMessage className="text-primary" />
+                                        </FormItem>
+                                    )}
                                 />
-                                {errors.email && (
-                                    <p className="text-primary">{`${errors.email.message}`}</p>
-                                )}
-                            </div>
-                            <div className="mb-4">
-                                <Label htmlFor="password" className="font-medium">
-                                    Password
-                                </Label>
-                                <Input
-                                    {...register("password")}
-                                    type="password"
-                                    className="mb-3 mt-2 text-black"
+                                <FormField
                                     name="password"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem className="mb-4">
+                                            <FormLabel className="font-medium">Password</FormLabel>
+                                            <FormControl>
+                                                <Input className="mb-3 mt-2 text-black" {...field} />
+                                            </FormControl>
+                                            <FormMessage className="text-primary" />
+                                        </FormItem>
+                                    )}
                                 />
-                                {errors.password && (
-                                    <p className="text-primary">{`${errors.password.message}`}</p>
-                                )}
-                            </div>
-                            <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
-                                <Link href="/auth/register" className="font-light">
-                                    Don't have an account yet
-                                </Link>
-                                <Link href="/auth/reset" className="font-light">
-                                    Forget the password
-                                </Link>
-                            </div>
-                        </>
-                    )}
-                    <FormSuccess message={success} />
-                    <FormError message={error || urlError} />
-                    <Button
-                        className="my-3 h-[50px] w-full max-w-40 rounded-2xl text-[17px]"
-                        disabled={isPending}
-                        type="submit"
-                    >
-                        {showCode ? "Confirm" : "Login"}
-                    </Button>
-                </form>
+                                <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
+                                    <Link href="/auth/register" className="font-light">
+                                        Don't have an account yet
+                                    </Link>
+                                    <Link href="/auth/reset" className="font-light">
+                                        Forget the password
+                                    </Link>
+                                </div>
+                            </>
+                        )}
+                        <FormSuccess message={success} />
+                        <FormError message={error || urlError} />
+                        <Button
+                            className="my-3 h-[50px] w-full max-w-40 rounded-2xl text-[17px]"
+                            disabled={isPending}
+                            type="submit"
+                        >
+                            {showCode ? "Confirm" : "Login"}
+                        </Button>
+                    </form>
+                </Form>
             </CardContent>
             <CardFooter>
                 <Socials disabled={isPending} />

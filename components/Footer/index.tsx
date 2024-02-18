@@ -5,7 +5,7 @@ import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
     return (
-        <footer className="shrink-0 bg-[#27282a] px-[42px] py-[34px] text-[#96989A]">
+        <footer className="shrink-0 bg-[#27282a] px-11 py-9 text-[#96989A]">
             <Container>
                 <div className="flex flex-col items-center gap-3">
                     <p>

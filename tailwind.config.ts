@@ -20,6 +20,7 @@ const config = {
     extend: {
       screens: {
         mobile: "440px",
+        hoverDevice: { raw: "(hover: hover)" },
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,25 +1,19 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { RegisterSchema, RegisterSchemaType } from "@/schemas";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
-import { toast } from "sonner";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { handleRegister } from "@/actions/register";
 import AuthButton from "../AuthButton";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const RegisterForm = () => {
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<RegisterSchemaType>({
+    const form = useForm<RegisterSchemaType>({
         resolver: zodResolver(RegisterSchema),
         defaultValues: {
             name: "",
@@ -50,58 +44,63 @@ const RegisterForm = () => {
                 <p className="text-center text-3xl font-bold">Register</p>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4">
-                        <Label htmlFor="name" className="font-medium">
-                            Name
-                        </Label>
-                        <Input
-                            {...register("name")}
-                            type="text"
-                            className="mb-3 mt-2 text-black"
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <FormField
                             name="name"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <Label htmlFor="email" className="font-medium">
-                            Email
-                        </Label>
-                        <Input
-                            {...register("email")}
-                            type="text"
-                            className="mb-3 mt-2 text-black"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="mb-4">
+                                    <FormLabel className="font-medium">Name</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} className="mb-3 mt-2 text-black" />
+                                    </FormControl>
+                                    <FormMessage className="text-primary" />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+                        <FormField
                             name="email"
-                        />
-                        {errors.email && (
-                            <p className="text-primary">{`${errors.email.message}`}</p>
-                        )}
-                    </div>
-                    <div className="mb-4">
-                        <Label htmlFor="password" className="font-medium">
-                            Password
-                        </Label>
-                        <Input
-                            {...register("password")}
-                            type="password"
-                            className="mb-3 mt-2 text-black"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="mb-4">
+                                    <FormLabel className="font-medium">Email</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} className="mb-3 mt-2 text-black" />
+                                    </FormControl>
+                                    <FormMessage className="text-primary" />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+                        <FormField
                             name="password"
-                        />
-                        {errors.password && (
-                            <p className="text-primary">{`${errors.password.message}`}</p>
-                        )}
-                    </div>
-                    <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
-                        <Link href="/auth/login" className="font-light">
-                            Already have an account
-                        </Link>
-                        <Link href="/auth/reset" className="font-light">
-                            Forget the password
-                        </Link>
-                    </div>
-                    <FormError message={error} />
-                    <FormSuccess message={success} />
-                    <AuthButton label="Register" disabled={isPending} />
-                </form>
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="mb-4">
+                                    <FormLabel className="font-medium">Password</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} className="mb-3 mt-2 text-black" />
+                                    </FormControl>
+                                    <FormMessage className="text-primary" />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+                        <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
+                            <Link href="/auth/login" className="font-light">
+                                Already have an account
+                            </Link>
+                            <Link href="/auth/reset" className="font-light">
+                                Forget the password
+                            </Link>
+                        </div>
+                        <FormError message={error} />
+                        <FormSuccess message={success} />
+                        <AuthButton label="Register" disabled={isPending} />
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     );

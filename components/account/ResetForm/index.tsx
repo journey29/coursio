@@ -1,24 +1,19 @@
 'use client'
-import { Button } from "@/components/ui/button"
 import { ResetSchema, ResetSchemaType } from "@/schemas";
 import Link from "next/link";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { reset } from "@/actions/reset";
 import AuthButton from "../AuthButton";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const ResetForm = () => {
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<ResetSchemaType>({
+    const form = useForm<ResetSchemaType>({
         resolver: zodResolver(ResetSchema),
         defaultValues: {
             email: "",
@@ -47,28 +42,30 @@ const ResetForm = () => {
                 <p className="text-center text-3xl font-bold">Reset Password</p>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4">
-                        <Label htmlFor="email" className="font-bold">
-                            Email
-                        </Label>
-                        <Input
-                            {...register("email")}
-                            type="text"
-                            className="mb-3 mt-2"
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <FormField
                             name="email"
-                        />
-                        {errors.email && (
-                            <p className="text-primary/50">{`${errors.email.message}`}</p>
-                        )}
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <Link href="/auth/register" className="font-light" >Don't have an account yet?</Link>
-                    </div>
-                    <FormError message={error} />
-                    <FormSuccess message={success} />
-                    <AuthButton label="Reset" />
-                </form>
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="mb-4">
+                                    <FormLabel className="font-medium">Email</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} className="mb-3 mt-2 text-black" />
+                                    </FormControl>
+                                    <FormMessage className="text-primary" />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+                        <div className="flex justify-between items-center">
+                            <Link href="/auth/register" className="font-light" >Don't have an account yet?</Link>
+                        </div>
+                        <FormError message={error} />
+                        <FormSuccess message={success} />
+                        <AuthButton label="Reset" disabled={isPending} />
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     )

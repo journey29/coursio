@@ -7,7 +7,7 @@ import parse from 'html-react-parser'
 
 
 const PaymentForm = () => {
-    const [form, setForm] = useState<any>();
+    const [form, setForm] = useState<string | any>();
     const { cartItems } = useCart(state => state);
     const cartTotal = cartItems.reduce((acc, i) => acc + (i.price ?? 0), 0).toString();
     const orderId = uuid();
@@ -30,7 +30,10 @@ const PaymentForm = () => {
 
     return (
         <>
-            {parse(`<div className="max-w-[250px] w-full">${form}</div>`)}
+            {cartItems.length === 0
+                ? <p className="text-2xl font-bold">Add courses to your cart first!</p>
+                : parse(`<div className="max-w-[250px] w-full"}>${form}</div > `)
+            }
         </>
     )
 }

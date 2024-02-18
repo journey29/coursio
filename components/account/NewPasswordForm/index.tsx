@@ -1,11 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { NewPasswordSchema, NewPasswordType } from "@/schemas";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "@/actions/new-password";
@@ -13,13 +11,10 @@ import AuthButton from "../AuthButton";
 import { FormError } from "../FormError";
 import { FormSuccess } from "../FormSuccess";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const NewPasswordForm = () => {
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<NewPasswordType>({
+    const form = useForm<NewPasswordType>({
         resolver: zodResolver(NewPasswordSchema),
         defaultValues: {
             password: "",
@@ -49,30 +44,32 @@ const NewPasswordForm = () => {
                 <p className="text-center text-3xl font-bold">New Password</p>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4">
-                        <Label htmlFor="password" className="font-bold">
-                            Password
-                        </Label>
-                        <Input
-                            {...register("password")}
-                            type="password"
-                            className="mb-3 mt-2"
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <FormField
                             name="password"
-                        />
-                        {errors.password && (
-                            <p className="text-primary/50">{`${errors.password.message}`}</p>
-                        )}
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <Link href="/auth/register" className="font-light">
-                            Don't have an account yet?
-                        </Link>
-                    </div>
-                    <FormError message={error} />
-                    <FormSuccess message={success} />
-                    <AuthButton label="Reset Password" disabled={isPending} />
-                </form>
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="mb-4">
+                                    <FormLabel className="font-bold">Password</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} className="mb-3 mt-2" />
+                                    </FormControl>
+                                    <FormMessage className="text-primary" />
+                                </FormItem>
+                            )}
+                        >
+                        </FormField>
+                        <div className="flex items-center justify-between">
+                            <Link href="/auth/register" className="font-light">
+                                Don't have an account yet?
+                            </Link>
+                        </div>
+                        <FormError message={error} />
+                        <FormSuccess message={success} />
+                        <AuthButton label="Reset Password" disabled={isPending} />
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     );

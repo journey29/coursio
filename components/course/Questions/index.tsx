@@ -13,7 +13,7 @@ const Contacts = () => {
             </h4>
             <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                    <AccordionTrigger className="text-lg">
+                    <AccordionTrigger className="text-lg text-start">
                         What is Coursio?
                     </AccordionTrigger>
                     <AccordionContent className="text-base">
@@ -26,7 +26,7 @@ const Contacts = () => {
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                    <AccordionTrigger className="text-lg">
+                    <AccordionTrigger className="text-lg text-start">
                         How can I cancel my course subscription?
                     </AccordionTrigger>
                     <AccordionContent className="text-base">Can't.</AccordionContent>
