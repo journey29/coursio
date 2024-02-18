@@ -53,7 +53,7 @@ const NewPasswordForm = () => {
                                 <FormItem className="mb-4">
                                     <FormLabel className="font-bold">Password</FormLabel>
                                     <FormControl>
-                                        <Input {...field} className="mb-3 mt-2" />
+                                        <Input {...field} className="mb-3 mt-2" type="password"/>
                                     </FormControl>
                                     <FormMessage className="text-primary" />
                                 </FormItem>
