@@ -1,12 +1,13 @@
-import RegisterForm from '@/components/account/RegisterForm'
-import React from 'react'
+import React from "react"
+
+import RegisterForm from "@/components/auth/RegisterForm"
 
 const RegisterPage = () => {
-    return (
-        <div className='flex items-center justify-center h-full'>
-            <RegisterForm />
-        </div>
-    )
+  return (
+    <div className="flex h-full items-center justify-center">
+      <RegisterForm />
+    </div>
+  )
 }
 
 export default RegisterPage

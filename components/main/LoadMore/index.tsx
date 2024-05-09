@@ -1,33 +1,36 @@
-"use client";
-import { fetchCourses } from "@/actions/fetch-courses";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+"use client"
 
-let page = 2;
-type CourseType = JSX.Element;
+import { useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
+
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+import { fetchCourses } from "@/actions/fetch-courses"
+
+let page = 2
+type CourseType = JSX.Element
 
 const LoadMore = () => {
-  const { inView, ref } = useInView();
-  const [data, setData] = useState<CourseType[]>([]);
-  const [isError, setIsError] = useState(false);
+  const { inView, ref } = useInView()
+  const [data, setData] = useState<CourseType[]>([])
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     if (inView) {
-      setIsError(false);
+      setIsError(false)
 
-      fetchCourses(page).then((res) => {
+      fetchCourses(page).then(res => {
         if (res?.length === 0 || res === null) {
-          setIsError(true);
-          return;
+          setIsError(true)
+          return
         }
 
-        setData([...data, ...res]);
-        page++;
-      });
+        setData([...data, ...res])
+        page++
+      })
     }
-  }, [inView, data]);
+  }, [inView, data])
 
   return (
     <section>
@@ -35,7 +38,10 @@ const LoadMore = () => {
         {data}
       </div>
       {!isError && (
-        <div ref={ref} className="mt-5 flex justify-center">
+        <div
+          ref={ref}
+          className="mt-5 flex justify-center"
+        >
           <FontAwesomeIcon
             className="h-[40px] w-[40px] animate-spin object-contain"
             icon={faSpinner}
@@ -43,7 +49,7 @@ const LoadMore = () => {
         </div>
       )}
     </section>
-  );
-};
+  )
+}
 
-export default LoadMore;
+export default LoadMore

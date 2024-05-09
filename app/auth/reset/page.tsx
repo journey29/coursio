@@ -1,11 +1,11 @@
-import ResetForm from "@/components/account/ResetForm"
+import ResetForm from "@/components/auth/ResetForm"
 
 const ResetPage = () => {
-    return (
-        <div className='flex items-center justify-center h-full'>
-            <ResetForm />
-        </div>
-    )
+  return (
+    <div className="flex h-full items-center justify-center">
+      <ResetForm />
+    </div>
+  )
 }
 
 export default ResetPage

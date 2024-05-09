@@ -1,26 +1,29 @@
-"use client";
+"use client"
+
+import {
+  faBook,
+  faGlobe,
+  faUniversity
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Course as CourseType } from "@prisma/client"
+import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Course as CourseType } from "@prisma/client";
-import {
-  faBook,
-  faGlobe,
-  faUniversity,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import CartButton from "./CartButton";
+  CardTitle
+} from "@/components/ui/card"
+
+import CartButton from "./CartButton"
 
 const variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
+  visible: { opacity: 1 }
+}
 
 const Course = ({
   title,
@@ -31,13 +34,13 @@ const Course = ({
   level,
   type,
   id,
-  index,
+  index
 }: CourseType & { index: number }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const onClick = () => {
-    router.push(`/course/${id}`);
-  };
+    router.push(`/course/${id}`)
+  }
 
   return (
     <motion.div
@@ -71,11 +74,19 @@ const Course = ({
         </CardContent>
         <CardFooter className="flex flex-col items-start space-y-2 pb-10">
           <p className="flex flex-row items-center gap-2">
-            <FontAwesomeIcon icon={faUniversity} width={15} height={15} />
+            <FontAwesomeIcon
+              icon={faUniversity}
+              width={15}
+              height={15}
+            />
             <span>{type}</span>
           </p>
           <p className="flex flex-row items-center gap-2">
-            <FontAwesomeIcon icon={faBook} width={15} height={15} />
+            <FontAwesomeIcon
+              icon={faBook}
+              width={15}
+              height={15}
+            />
             <span>{level}</span>
           </p>
           <div className="flex flex-row items-start gap-2">
@@ -87,7 +98,10 @@ const Course = ({
             />
             <div className="flex flex-row flex-wrap items-center gap-2">
               {languages.map((language, index) => (
-                <p className="" key={language}>
+                <p
+                  className=""
+                  key={language}
+                >
                   {language}
                   {index < languages.length - 1 && ","}
                 </p>
@@ -97,7 +111,7 @@ const Course = ({
         </CardFooter>
       </Card>
     </motion.div>
-  );
-};
+  )
+}
 
-export default Course;
+export default Course

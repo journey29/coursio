@@ -1,9 +1,15 @@
-"use client";
-import { settings } from "@/actions/settings";
-import { FormError } from "@/components/account/FormError";
-import { FormSuccess } from "@/components/account/FormSuccess";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+"use client"
+
+import { useState, useTransition } from "react"
+import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useSession } from "next-auth/react"
+
+import { FormError } from "@/components/auth/FormError"
+import { FormSuccess } from "@/components/auth/FormSuccess"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -11,23 +17,22 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { SettingsSchema, SettingsSchemaType } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+  FormMessage
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
+
+import { useCurrentUser } from "@/hooks/use-current-user"
+
+import { settings } from "@/actions/settings"
+import { SettingsSchema, SettingsSchemaType } from "@/schemas"
 
 const Settings = () => {
-  const user = useCurrentUser();
-  const { update } = useSession();
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const user = useCurrentUser()
+  const { update } = useSession()
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | undefined>("")
+  const [success, setSuccess] = useState<string | undefined>("")
   const form = useForm<SettingsSchemaType>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
@@ -36,19 +41,19 @@ const Settings = () => {
       password: undefined,
       newPassword: undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
-      role: user?.role || undefined,
-    },
-  });
+      role: user?.role || undefined
+    }
+  })
 
   const onSubmit = (values: SettingsSchemaType) => {
     startTransition(() => {
-      settings(values).then((data) => {
-        setSuccess(data?.success);
-        setError(data?.error);
-        update();
-      });
-    });
-  };
+      settings(values).then(data => {
+        setSuccess(data?.success)
+        setError(data?.error)
+        update()
+      })
+    })
+  }
 
   return (
     <Card className="w-full max-w-[600px] shadow-md dark:border-none">
@@ -57,7 +62,10 @@ const Settings = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <FormField
               control={form.control}
               name="name"
@@ -65,7 +73,10 @@ const Settings = () => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} className="text-black" />
+                    <Input
+                      {...field}
+                      className="text-black"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -80,7 +91,10 @@ const Settings = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} className="text-black" />
+                        <Input
+                          {...field}
+                          className="text-black"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -93,7 +107,10 @@ const Settings = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input {...field} className="text-black" />
+                        <Input
+                          {...field}
+                          className="text-black"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -106,7 +123,10 @@ const Settings = () => {
                     <FormItem>
                       <FormLabel>New password</FormLabel>
                       <FormControl>
-                        <Input {...field} className="text-black" />
+                        <Input
+                          {...field}
+                          className="text-black"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,7 +162,7 @@ const Settings = () => {
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

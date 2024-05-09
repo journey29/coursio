@@ -1,23 +1,28 @@
-"use client";
-import { RegisterSchema, RegisterSchemaType } from "@/schemas";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { Input } from "@/components/ui/input";
-import { handleRegister } from "@/actions/register";
-import AuthButton from "../AuthButton";
-import { FormError } from "../FormError";
-import { FormSuccess } from "../FormSuccess";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+"use client"
+
+import { useState, useTransition } from "react"
+import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  FormMessage
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+import AuthButton from "../AuthButton"
+import { FormError } from "../FormError"
+import { FormSuccess } from "../FormSuccess"
+
+import { handleRegister } from "@/actions/register"
+import { RegisterSchema, RegisterSchemaType } from "@/schemas"
 
 const RegisterForm = () => {
   const form = useForm<RegisterSchemaType>({
@@ -25,24 +30,24 @@ const RegisterForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      password: "",
-    },
-  });
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [error, setError] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+      password: ""
+    }
+  })
+  const [success, setSuccess] = useState<string | undefined>("")
+  const [error, setError] = useState<string | undefined>("")
+  const [isPending, startTransition] = useTransition()
 
   const onSubmit = (values: RegisterSchemaType) => {
-    setError("");
-    setSuccess("");
+    setError("")
+    setSuccess("")
 
     startTransition(() => {
-      handleRegister(values).then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
-      });
-    });
-  };
+      handleRegister(values).then(data => {
+        setSuccess(data.success)
+        setError(data.error)
+      })
+    })
+  }
 
   return (
     <Card className="w-full max-w-[600px] shadow-md dark:border-none">
@@ -59,7 +64,10 @@ const RegisterForm = () => {
                 <FormItem className="mb-4">
                   <FormLabel className="font-medium">Name</FormLabel>
                   <FormControl>
-                    <Input {...field} className="mb-3 mt-2 text-black" />
+                    <Input
+                      {...field}
+                      className="mb-3 mt-2 text-black"
+                    />
                   </FormControl>
                   <FormMessage className="text-primary" />
                 </FormItem>
@@ -72,7 +80,10 @@ const RegisterForm = () => {
                 <FormItem className="mb-4">
                   <FormLabel className="font-medium">Email</FormLabel>
                   <FormControl>
-                    <Input {...field} className="mb-3 mt-2 text-black" />
+                    <Input
+                      {...field}
+                      className="mb-3 mt-2 text-black"
+                    />
                   </FormControl>
                   <FormMessage className="text-primary" />
                 </FormItem>
@@ -96,21 +107,30 @@ const RegisterForm = () => {
               )}
             ></FormField>
             <div className="mt-4 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-0">
-              <Link href="/auth/login" className="font-light">
+              <Link
+                href="/auth/login"
+                className="font-light"
+              >
                 Already have an account
               </Link>
-              <Link href="/auth/reset" className="font-light">
+              <Link
+                href="/auth/reset"
+                className="font-light"
+              >
                 Forget the password
               </Link>
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <AuthButton label="Register" disabled={isPending} />
+            <AuthButton
+              label="Register"
+              disabled={isPending}
+            />
           </form>
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

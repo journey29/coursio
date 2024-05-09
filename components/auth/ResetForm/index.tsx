@@ -1,46 +1,51 @@
-"use client";
-import { ResetSchema, ResetSchemaType } from "@/schemas";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { Input } from "@/components/ui/input";
-import { reset } from "@/actions/reset";
-import AuthButton from "../AuthButton";
-import { FormError } from "../FormError";
-import { FormSuccess } from "../FormSuccess";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+"use client"
+
+import { useState, useTransition } from "react"
+import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
+
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  FormMessage
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+import AuthButton from "../AuthButton"
+import { FormError } from "../FormError"
+import { FormSuccess } from "../FormSuccess"
+
+import { reset } from "@/actions/reset"
+import { ResetSchema, ResetSchemaType } from "@/schemas"
 
 const ResetForm = () => {
   const form = useForm<ResetSchemaType>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: "",
-    },
-  });
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [error, setError] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+      email: ""
+    }
+  })
+  const [success, setSuccess] = useState<string | undefined>("")
+  const [error, setError] = useState<string | undefined>("")
+  const [isPending, startTransition] = useTransition()
 
   const onSubmit = (values: ResetSchemaType) => {
-    setError("");
-    setSuccess("");
+    setError("")
+    setSuccess("")
 
     startTransition(() => {
-      reset(values).then((data) => {
-        setSuccess(data?.success);
-        setError(data?.error);
-      });
-    });
-  };
+      reset(values).then(data => {
+        setSuccess(data?.success)
+        setError(data?.error)
+      })
+    })
+  }
 
   return (
     <Card className="w-full max-w-[600px] shadow-md dark:border-none">
@@ -67,18 +72,24 @@ const ResetForm = () => {
               )}
             ></FormField>
             <div className="flex items-center justify-between">
-              <Link href="/auth/register" className="font-light">
+              <Link
+                href="/auth/register"
+                className="font-light"
+              >
                 Don't have an account yet?
               </Link>
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <AuthButton label="Reset" disabled={isPending} />
+            <AuthButton
+              label="Reset"
+              disabled={isPending}
+            />
           </form>
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default ResetForm;
+export default ResetForm

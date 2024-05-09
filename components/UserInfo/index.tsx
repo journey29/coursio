@@ -1,10 +1,11 @@
-import { ExtendedUser } from "@/next-auth";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+
+import { ExtendedUser } from "@/next-auth"
 
 type Props = {
-  label: string;
-  user?: ExtendedUser;
-};
+  label: string
+  user?: ExtendedUser
+}
 
 const UserInfo = ({ label, user }: Props) => {
   return (
@@ -13,25 +14,37 @@ const UserInfo = ({ label, user }: Props) => {
         <p className="text-2xl font-bold">{label}</p>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <UserInfoItem title="ID" text={user?.id} />
-        <UserInfoItem title="Name" text={user?.name} />
-        <UserInfoItem title="Email" text={user?.email} />
+        <UserInfoItem
+          title="ID"
+          text={user?.id}
+        />
+        <UserInfoItem
+          title="Name"
+          text={user?.name}
+        />
+        <UserInfoItem
+          title="Email"
+          text={user?.email}
+        />
         <UserInfoItem
           title="Two factor enabled"
           text={user?.isTwoFactorEnabled}
         />
-        <UserInfoItem title="Role" text={user?.role} />
+        <UserInfoItem
+          title="Role"
+          text={user?.role}
+        />
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default UserInfo;
+export default UserInfo
 
 type UserInfoItemProps = {
-  title: string;
-  text: string | undefined | boolean | null;
-};
+  title: string
+  text: string | undefined | boolean | null
+}
 
 const UserInfoItem = ({ title, text }: UserInfoItemProps) => {
   return (
@@ -41,5 +54,5 @@ const UserInfoItem = ({ title, text }: UserInfoItemProps) => {
         {title === "Two factor enabled" ? (text ? "ON" : "OFF") : text}
       </p>
     </div>
-  );
-};
+  )
+}

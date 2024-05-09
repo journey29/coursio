@@ -1,12 +1,16 @@
-import UserInfo from '@/components/UserInfo'
-import { currentUser } from '@/lib/auth'
+import UserInfo from "@/components/UserInfo"
+
+import { currentUser } from "@/lib/auth"
 
 const Profile = async () => {
-    const user = await currentUser();
+  const user = await currentUser()
 
-    return (
-        <UserInfo user={user} label='User info' />
-    )
+  return (
+    <UserInfo
+      user={user}
+      label="User info"
+    />
+  )
 }
 
 export default Profile

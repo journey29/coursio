@@ -1,16 +1,20 @@
-"use client";
-import { logout } from "@/actions/logout";
+"use client"
+
+import { logout } from "@/actions/logout"
 
 const LogoutButton = ({ children }: { children: React.ReactNode }) => {
   const onClick = () => {
-    logout();
-  };
+    logout()
+  }
 
   return (
-    <span onClick={onClick} className="cursor-pointer">
+    <span
+      onClick={onClick}
+      className="cursor-pointer"
+    >
       {children}
     </span>
-  );
-};
+  )
+}
 
-export default LogoutButton;
+export default LogoutButton

@@ -1,11 +1,11 @@
-import NewPasswordForm from "@/components/account/NewPasswordForm"
+import NewPasswordForm from "@/components/auth/NewPasswordForm"
 
 const NewPasswordPage = () => {
-    return (
-        <div className='flex items-center justify-center h-full'>
-            <NewPasswordForm />
-        </div>
-    )
+  return (
+    <div className="flex h-full items-center justify-center">
+      <NewPasswordForm />
+    </div>
+  )
 }
 
 export default NewPasswordPage

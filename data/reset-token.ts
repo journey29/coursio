@@ -1,29 +1,29 @@
-import db from "@/lib/db";
+import db from "@/lib/db"
 
 export const getResetTokenByEmail = async (email: string) => {
   try {
     const verificationToken = await db.resetToken.findFirst({
       where: {
-        email,
-      },
-    });
+        email
+      }
+    })
 
-    return verificationToken;
+    return verificationToken
   } catch {
-    return null;
+    return null
   }
-};
+}
 
 export const getResetTokenByToken = async (token: string) => {
   try {
     const verificationToken = await db.resetToken.findUnique({
       where: {
-        token,
-      },
-    });
+        token
+      }
+    })
 
-    return verificationToken;
+    return verificationToken
   } catch {
-    return null;
+    return null
   }
-};
+}

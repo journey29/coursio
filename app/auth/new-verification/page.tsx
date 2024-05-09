@@ -1,11 +1,11 @@
-import NewVerificationForm from '@/components/account/NewVerificationForm'
+import NewVerificationForm from "@/components/auth/NewVerificationForm"
 
 const NewVerificationPage = () => {
-    return (
-        <div className='flex items-center justify-center h-full'>
-            <NewVerificationForm />
-        </div>
-    )
+  return (
+    <div className="flex h-full items-center justify-center">
+      <NewVerificationForm />
+    </div>
+  )
 }
 
 export default NewVerificationPage

@@ -1,24 +1,27 @@
-"use client";
-import { admin } from "@/actions/admin";
-import RoleGate from "@/components/RoleGate";
-import { FormSuccess } from "@/components/account/FormSuccess";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Role } from "@prisma/client";
-import { toast } from "sonner";
+"use client"
+
+import { Role } from "@prisma/client"
+import { toast } from "sonner"
+
+import RoleGate from "@/components/RoleGate"
+import { FormSuccess } from "@/components/auth/FormSuccess"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+
+import { admin } from "@/actions/admin"
 
 const Admin = () => {
   const onServerActionClick = () => {
-    admin().then((data) => {
+    admin().then(data => {
       if (data.error) {
-        toast.error(data.error);
+        toast.error(data.error)
       }
 
       if (data.success) {
-        toast.success(data.success);
+        toast.success(data.success)
       }
-    });
-  };
+    })
+  }
 
   return (
     <Card className="w-full max-w-[600px] shadow-md dark:border-none">
@@ -35,7 +38,7 @@ const Admin = () => {
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin

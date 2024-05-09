@@ -1,12 +1,13 @@
-import LoginForm from '@/components/account/LoginForm'
-import React from 'react'
+import React from "react"
+
+import LoginForm from "@/components/auth/LoginForm"
 
 const LoginPage = () => {
-    return (
-        <div className='flex items-center justify-center h-full'>
-            <LoginForm />
-        </div>
-    )
+  return (
+    <div className="flex h-full items-center justify-center">
+      <LoginForm />
+    </div>
+  )
 }
 
 export default LoginPage
