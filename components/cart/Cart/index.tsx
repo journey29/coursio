@@ -1,13 +1,11 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Sheet,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTrigger
 } from "@/components/ui/sheet"
@@ -55,16 +53,6 @@ const Cart = () => {
               </ScrollArea>
               <CartInfo cartTotal={cartTotal} />
             </div>
-            <SheetFooter className="mt-5 w-full pr-6">
-              <SheetTrigger asChild>
-                <Button
-                  className="w-full py-6 text-lg font-medium"
-                  asChild
-                >
-                  <Link href="/payment">Checkout</Link>
-                </Button>
-              </SheetTrigger>
-            </SheetFooter>
           </>
         ) : (
           <div className="flex h-full flex-col items-center justify-center space-y-1">
